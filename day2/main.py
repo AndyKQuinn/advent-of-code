@@ -1,7 +1,9 @@
 import csv
 
+from duplicate_finder import find_duplicate_subsequences
 
-def main():
+
+def first_puzzle():
     with open("inputs.csv", "r") as csvfile:
         csvReader = csv.reader(csvfile, delimiter=",")
 
@@ -25,8 +27,36 @@ def main():
                             listOfBadIDs.append(element)
 
     sumOfBadIDs = sum(listOfBadIDs)
-    print("List of bad IDs: ", sumOfBadIDs)
+    print("Puzzle 1 results:")
+    print("Length of bad IDs: ", len(listOfBadIDs))
+    print("Sum of all bad IDs: ", sumOfBadIDs)
+
+
+def second_puzzle():
+    with open("inputs.csv", "r") as csvfile:
+        csvReader = csv.reader(csvfile, delimiter=",")
+
+        listOfBadIDs = []
+
+        for listOfIDs in csvReader:
+            for rangeOfIDs in listOfIDs:
+                startIDstr, endIDstr = rangeOfIDs.split("-")
+                startID = int(startIDstr)
+                endID = int(endIDstr)
+
+                print("StartID: " + str(startID) + " EndID: " + str(endID))
+                for integer in range(startID, endID):
+                    patterns = find_duplicate_subsequences(integer)
+                    if patterns:
+                        print(f"Duplicate found in {integer}: {patterns}")
+                        listOfBadIDs.append(integer)
+
+    sumOfBadIDs = sum(listOfBadIDs)
+    print("Puzzle 2 results:")
+    print("Length of bad IDs: ", len(listOfBadIDs))
+    print("Sum of all bad IDs: ", sumOfBadIDs)
 
 
 if __name__ == "__main__":
-    main()
+    first_puzzle()
+    second_puzzle()
